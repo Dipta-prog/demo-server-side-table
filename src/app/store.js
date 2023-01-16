@@ -1,8 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import { apiSlice } from "../features/api/apiSlice";
+import todoSliceReducer from "../features/todo/todoSlice";
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-  },
+    reducer: {
+        [apiSlice.reducerPath]: apiSlice.reducer,
+        todo: todoSliceReducer,
+    },
+    middleware: (GDM) => GDM().concat(apiSlice.middleware),
 });
