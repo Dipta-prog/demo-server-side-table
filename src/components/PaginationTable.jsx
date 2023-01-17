@@ -9,6 +9,8 @@ const PaginationTable = ({
     data,
     fetchData,
     pageCount: controlledPageCount,
+    tableQueryParams,
+    setPageLimit,
 }) => {
     const {
         getTableProps,
@@ -30,7 +32,10 @@ const PaginationTable = ({
         {
             columns,
             data,
-            initialState: { pageIndex: 0 }, // Pass our hoisted table state
+            initialState: {
+                pageIndex: tableQueryParams.queryPageIndex,
+                pageSize: tableQueryParams.queryPageSize,
+            }, // Pass our hoisted table state
             manualPagination: true, // Tell the usePagination
             // hook that we'll handle our own data fetching
             // This means we'll also have to provide our own
@@ -40,10 +45,9 @@ const PaginationTable = ({
         usePagination
     );
 
-    // Listen for changes in pagination and use the state to fetch our new data
     useEffect(() => {
-        fetchData({ pageIndex, pageSize });
-    }, [fetchData, pageIndex, pageSize]);
+        setPageLimit(pageSize);
+    }, [pageSize]);
 
     // Render the UI for your table
     return (
